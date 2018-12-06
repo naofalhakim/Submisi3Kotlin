@@ -458,7 +458,7 @@ class DetailActivity : AppCompatActivity(){
                 true
             }
             R.id.add_to_favorite -> {
-                if(teamMatch != null){
+                if(this::teamMatch.isInitialized) {
                     if (isFavorite) removeFromFavorite() else addToFavorite()
 
                     isFavorite = !isFavorite

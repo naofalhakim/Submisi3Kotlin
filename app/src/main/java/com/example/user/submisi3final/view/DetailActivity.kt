@@ -10,10 +10,7 @@ import android.util.Log
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
 import com.example.user.submisi3final.R
 import com.example.user.submisi3final.R.drawable.ic_add_to_favorites
 import com.example.user.submisi3final.R.drawable.ic_added_to_favorites
@@ -461,11 +458,15 @@ class DetailActivity : AppCompatActivity(){
                 true
             }
             R.id.add_to_favorite -> {
-                if (isFavorite) removeFromFavorite() else addToFavorite()
+                if(teamMatch != null){
+                    if (isFavorite) removeFromFavorite() else addToFavorite()
 
-                isFavorite = !isFavorite
-                setFavorite()
+                    isFavorite = !isFavorite
+                    setFavorite()
 
+                }else{
+                    Toast.makeText(this,"Please Cek Your Internet",Toast.LENGTH_SHORT).show()
+                }
                 true
             }
 
@@ -541,8 +542,8 @@ class DetailActivity : AppCompatActivity(){
                     )
             }
             swipeRefresh.snackbar("Added to favorite").show()
-        } catch (e: SQLiteConstraintException){
-            swipeRefresh.snackbar(e.localizedMessage).show()
+        } catch (e: Exception){
+            swipeRefresh.snackbar("Please Cek Your Internet Connection").show()
         }
     }
 

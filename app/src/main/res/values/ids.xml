@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="text_date" type="id"/>
+    <item name="text_nameHome" type="id"/>
+    <item name="text_scoreHome" type="id"/>
+    <item name="text_scoreAway" type="id"/>
+    <item name="text_nameAway" type="id"/>
+</resources>

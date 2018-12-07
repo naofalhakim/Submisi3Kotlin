@@ -10,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.ProgressBar
+import com.example.user.submisi3final.R
+import com.example.user.submisi3final.R.id.mylist
 import com.example.user.submisi3final.model.ApiRepository
 import com.example.user.submisi3final.model.TeamMatch
 import com.example.user.submisi3final.presenter.MainPresenter
@@ -47,6 +49,7 @@ class TeamsFragment : Fragment(), MainView{
                     lparams(width = matchParent, height = matchParent)
 
                     myListTeam = recyclerView {
+                        id = mylist
                         lparams(width = matchParent, height = matchParent)
                         layoutManager = LinearLayoutManager(context)
                     }

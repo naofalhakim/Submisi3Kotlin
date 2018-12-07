@@ -17,11 +17,14 @@ import com.example.user.submisi3final.R.drawable.ic_added_to_favorites
 import com.example.user.submisi3final.model.ApiRepository
 import com.example.user.submisi3final.model.TeamMatch
 import com.example.user.submisi3final.model.databaseconfig.database
-import com.example.user.submisi3final.model.myBadge
-import com.example.user.submisi3final.model.myLigaModel
+import com.example.user.submisi3final.model.MyBadge
+import com.example.user.submisi3final.model.MyLigaModel
 import com.example.user.submisi3final.model.table.Favorite
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.*
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.delete
@@ -475,55 +478,50 @@ class DetailActivity : AppCompatActivity(){
     }
 
     fun getBadge(idTeam: String, gson : Gson, apiRepository : ApiRepository, img:ImageView) {
-        doAsync {
-            val data = gson.fromJson(
-                apiRepository
-                    .doRequest(ApiRepository.TheSportDBApi.getTeamBadge(idTeam)),
-                myBadge::class.java
-            )
-            Log.e("Gambar", data.teams.get(0).strTeamBadge)
-            uiThread {
-                Picasso.get().load(data.teams.get(0).strTeamBadge).into(img)
-            }
+        GlobalScope.launch(Dispatchers.Main){
+            val data = gson.fromJson(apiRepository
+                .doRequest(ApiRepository.TheSportDBApi.getTeamBadge(idTeam)).await(),
+                MyBadge::class.java)
+
+            Picasso.get().load(data.teams.get(0).strTeamBadge).into(img)
         }
     }
 
     fun getDetailData(idEvent: String, gson : Gson, apiRepository : ApiRepository) {
-        doAsync {
-            val data = gson.fromJson(
-                apiRepository
-                    .doRequest(ApiRepository.TheSportDBApi.getDetailEvents(idEvent)),
-                myLigaModel::class.java
-            )
+
+        GlobalScope.launch(Dispatchers.Main){
+            val data = gson.fromJson(apiRepository
+                .doRequest(ApiRepository.TheSportDBApi.getDetailEvents(idEvent)).await(),
+                MyLigaModel::class.java)
+
             val eventDetail = data.events.get(0)
             teamMatch = eventDetail
 
-            uiThread {
-                nameHome.text = eventDetail.homeTeamName
-                nameAway.text = eventDetail.awayTeamName
-                scoreAway.text = eventDetail.awayScore
-                scoreHome.text = eventDetail.homeScore
-                eventDate.text = eventDetail.dateEvent
+            nameHome.text = eventDetail.homeTeamName
+            nameAway.text = eventDetail.awayTeamName
+            scoreAway.text = eventDetail.awayScore
+            scoreHome.text = eventDetail.homeScore
+            eventDate.text = eventDetail.dateEvent
 
-                shotAway.text = eventDetail.intAwayShots
-                shotHome.text = eventDetail.intHomeShots
+            shotAway.text = eventDetail.intAwayShots
+            shotHome.text = eventDetail.intHomeShots
 
-                goalDetailAway.text = eventDetail.strAwayGoalDetails
-                goalDetailHome.text = eventDetail.strHomeGoalDetails
+            goalDetailAway.text = eventDetail.strAwayGoalDetails
+            goalDetailHome.text = eventDetail.strHomeGoalDetails
 
-                awayDf.text = eventDetail.strAwayLineupDefense
-                awayFw.text = eventDetail.strAwayLineupForward
-                awayGk.text = eventDetail.strAwayLineupGoalkeeper
-                awayMd.text = eventDetail.strAwayLineupMidfield
-                awaySub.text = eventDetail.strAwayLineupSubstitutes
+            awayDf.text = eventDetail.strAwayLineupDefense
+            awayFw.text = eventDetail.strAwayLineupForward
+            awayGk.text = eventDetail.strAwayLineupGoalkeeper
+            awayMd.text = eventDetail.strAwayLineupMidfield
+            awaySub.text = eventDetail.strAwayLineupSubstitutes
 
-                homeDf.text = eventDetail.strHomeLineupDefense
-                homeFw.text = eventDetail.strHomeLineupForward
-                homeGk.text = eventDetail.strHomeLineupGoalkeeper
-                homeMd.text = eventDetail.strHomeLineupMidfield
-                homeSub.text = eventDetail.strHomeLineupSubstitutes
-            }
+            homeDf.text = eventDetail.strHomeLineupDefense
+            homeFw.text = eventDetail.strHomeLineupForward
+            homeGk.text = eventDetail.strHomeLineupGoalkeeper
+            homeMd.text = eventDetail.strHomeLineupMidfield
+            homeSub.text = eventDetail.strHomeLineupSubstitutes
         }
+
     }
 
     private fun addToFavorite(){

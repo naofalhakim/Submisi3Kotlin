@@ -1,4 +1,4 @@
 package com.example.user.submisi3final.model
 
-data class myLigaModel(
+data class MyLigaModel(
     val events : List<TeamMatch>)

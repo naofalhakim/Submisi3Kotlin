@@ -1,4 +1,4 @@
 package com.example.user.submisi3final.model
 
-data class myBadge(
+data class MyBadge(
     val teams : List<TeamDetail>)

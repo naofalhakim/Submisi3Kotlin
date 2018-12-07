@@ -5,4 +5,5 @@
     <item name="text_scoreHome" type="id"/>
     <item name="text_scoreAway" type="id"/>
     <item name="text_nameAway" type="id"/>
+    <item name="mylist" type="id"/>
 </resources>

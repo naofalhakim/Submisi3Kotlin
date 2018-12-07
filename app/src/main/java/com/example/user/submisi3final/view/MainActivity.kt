@@ -15,6 +15,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        bottom_navigation.id = R.id.bottom_navigation
         bottom_navigation.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.teams -> {
